@@ -1,8 +1,11 @@
 let jsonData;
+let originalFileName = "";
 
 document.getElementById("fileInput").addEventListener("change", function () {
     const file = this.files[0];
     if (!file) return;
+
+    originalFileName = file.name; // store original filename (e.g., abra_outbreak.json)
 
     const reader = new FileReader();
 
@@ -32,7 +35,10 @@ document.getElementById("fileInput").addEventListener("change", function () {
 });
 
 function downloadJSON() {
-    // Update values only if field is not empty
+    // Track original Pokémon name
+    const originalPokemon = jsonData.species_data.pokemon;
+
+    // Apply updates only when field is not empty
     const pokemon = document.getElementById("pokemon").value.trim();
     if (pokemon) jsonData.species_data.pokemon = pokemon;
 
@@ -48,6 +54,20 @@ function downloadJSON() {
     const spawns = document.getElementById("spawns_per_wave").value.trim();
     if (spawns) jsonData.species_data.wave_data.spawns_per_wave = Number(spawns);
 
+    // Determine output filename
+    const currentPokemon = jsonData.species_data.pokemon;
+
+    let outputName;
+
+    if (currentPokemon === originalPokemon) {
+        // Keep original name exactly
+        outputName = originalFileName;
+    } else {
+        // Replace leading Pokémon name with new one
+        const suffix = originalFileName.substring(originalFileName.indexOf("_"));  
+        outputName = currentPokemon + suffix; // e.g., pikachu_outbreak.json
+    }
+
     // Create downloadable JSON
     const output = JSON.stringify(jsonData, null, 2);
     const blob = new Blob([output], { type: "application/json" });
@@ -55,7 +75,7 @@ function downloadJSON() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "updated_outbreak.json";
+    a.download = outputName;
     a.click();
 
     URL.revokeObjectURL(url);
