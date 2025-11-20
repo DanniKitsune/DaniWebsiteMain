@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Outbreak JSON Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            margin: 6px 0;
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+        }
+        .field-label {
+            margin-top: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Outbreak JSON Editor</h2>
+
+<input type="file" id="fileInput" accept=".json">
+
+<div id="editor" style="display:none;">
+
+    <div class="field-label">pokemon:</div>
+    <input type="text" id="pokemon">
+
+    <div class="field-label">pokemon_rarity:</div>
+    <input type="text" id="pokemon_rarity">
+
+    <div class="field-label">shiny_chance:</div>
+    <input type="number" id="shiny_chance">
+
+    <div class="field-label">waves:</div>
+    <input type="number" id="waves">
+
+    <div class="field-label">spawns_per_wave:</div>
+    <input type="number" id="spawns_per_wave">
+
+    <button onclick="downloadJSON()">Download Updated JSON</button>
+</div>
+
+<!-- Load your JS file -->
+<script src="editor.js"></script>
+
+</body>
+</html>
